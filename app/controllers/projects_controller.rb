@@ -65,19 +65,19 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.json
   def update
     @project = Project.find(params[:id])
-    @matrix= Matrix.find_or_create_by_case_id_and_tabela_id(
+    @caseTabela= CaseTabela.find_or_create_by_case_id_and_tabela_id(
       :case_id => params[:case_id], 
       :tabela_id => params[:tabela_id]
     )
-    params[:matrix][:lock_version] = params[:lock_version]
+    params[:case_tabela][:lock_version] = params[:lock_version]
     
     respond_to do |format|
-      if @matrix.update_attributes(params[:matrix])
-        format.html { redirect_to @matrix, notice: 'Project was successfully updated.' }
+      if @caseTabela.update_attributes(params[:case_tabela])
+        format.html { redirect_to @caseTabela, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @matrix.errors, status: :unprocessable_entity }
+        format.json { render json: @caseTabela.errors, status: :unprocessable_entity }
       end
     end
   

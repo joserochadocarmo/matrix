@@ -3,7 +3,7 @@ class Case < ActiveRecord::Base
 
   belongs_to :project, :inverse_of => :cases
 
-  has_many :matrix
+  has_many :caseTabela
 
   validates :name,
             :presence => true,

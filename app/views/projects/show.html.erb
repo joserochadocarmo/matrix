@@ -24,7 +24,15 @@
 	-moz-transform: rotate(-90deg);
 	/* Internet Explorer */
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	background: #E6EAE9;	
 }
+
 body {
 	color: #4f6b72;
 	background: #E6EAE9;
@@ -57,7 +65,7 @@ th {
 	text-align: left;
 	padding: 6px 6px 6px 12px;
 	background: #CAE8EA url(../bg_header.jpg) no-repeat;
-	max-width: 100px;
+	max-width: 10px;
 }
 
 th.entidade {
@@ -65,22 +73,22 @@ th.entidade {
 }
 
 th.nobg {
-	border-top: 0;
-	border-left: 0;
+	border-top: 1px solid #C1DAD7;
+	border-left: 1px solid #C1DAD7;
 	border-right: 1px solid #C1DAD7;
-	background: none;
 }
 
 td {
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	background: #fff;
-	padding: 6px 6px 6px 12px;
 	color: #4f6b72;
+	text-transform: uppercase;
 	text-align: center;
-	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	width: 0.5px;
+	max-width: 0.5px;
 }
-
 
 td.alt {
 	background: #F5FAFA;
@@ -151,64 +159,82 @@ input[name="crud"] {
 
 </style>
 
+<br><br><br><br><br><br>
+<caption>Entidades Informacionais</caption>
 <p id="notice"><%= notice %></p>
 
 <table id="mytable" cellspacing="0" summary="Matrix">
-<caption>Entidades Informacionais</caption>
+
   <tr>
-    <th scope="col" abbr="Funcionalidades" class="nobg">Funcionalidades</th>
-    <% @entidades.each do |entidade| -%>
-    	<th class="entidade" scope="col" abbr=<%= entidade.name %> ><%= entidade.name %></th>
-	<% end -%>
-	<th class="entidade" scope="col" abbr="Totais" >TOTAL</th>
+  	<tr>
+    	<th scope="col" abbr="Funcionalidades" class="nobg">Funcionalidades</th>
+    	<% @entidades.each do |entidade| -%>
+    		<td class="rotate" scope="col" abbr=<%= entidade.name %> >
+    			<div style="margin-left:5px;"><%= entidade.name %></div>
+    		</td>
+		<% end -%>
+		<th class="entidade" scope="col" abbr="Totais" >TOTAL</th>
+  	</tr>  
   </tr>
 
-  <% total_cases='' %>	
-  <% total_entidades=Array.new()  %>	
-  <% @cases.each_with_index do |cdu,index| -%>
-  	
-  	
+  <% total_colunas =Hash.new %>
+  <% total_linhas =Hash.new %>
 
-  	<% cor = index.modulo(2)==0 ? "spec" : "specalt" %>
-  	<% alt = index.modulo(2)==0 ? "" : "alt" %>
+  <% soma_total ="" %>
+
+  <% @cases.each_with_index do |cdu,i| -%>
+  	
+  	<% total_linha='' %>	
+  	<% cor = i.modulo(2)==0 ? "spec" : "specalt" %>
+  	<% alt = i.modulo(2)==0 ? "" : "alt" %>
+
   	<tr>
 	    <th scope="row" abbr=<%= cdu.name %> class=<%=cor%> ><%= cdu.name %></th>
-	    	<% @entidades.each_with_index do |entidade,index| -%>
-	    		<% matrix=matrix_crud(cdu.id,entidade.id) %>
+
+	    	<% @entidades.each_with_index do |entidade,j| -%>
+
+	    		<% caseTabela=matrix_crud(cdu.id,entidade.id) %>
+
 			    <td class=<%=alt%>>
-			    	<% matrix=Matrix.new(:crud=>'') if matrix.blank? %>
 
-			    	<%= best_in_place matrix, :crud, :type => :input,:nil =>'--' , :path => project_path(:case_id => cdu.id, :tabela_id => entidade.id,:lock_version =>matrix.lock_version ),:ok_button => 'OK' unless matrix.blank? %>	
+			    	<% caseTabela=CaseTabela.new(:crud=>'') if caseTabela.blank? %>
 
-			    	<% total_cases.concat(matrix.crud.to_s) unless matrix.blank? %>	
+			    	<%= best_in_place caseTabela, :crud, :type => :input,:nil =>'--' , 
+			    		:path => project_path(:case_id => cdu.id, :tabela_id => entidade.id,
+			    		:lock_version =>caseTabela.lock_version ),:ok_button => 'OK' unless caseTabela.blank? %>	
 
-			    	<% #total_entidades[index] = matrix.crud.to_s unless matrix.blank? %>	
+			    	<% total_linha.concat(caseTabela.crud.to_s) unless caseTabela.blank? %>	
+			    	
+			    	<% total_colunas[entidade.name]= total_colunas[entidade.name].concat(caseTabela.crud) unless total_colunas[entidade.name].blank? %>
+					
+					<% total_colunas[entidade.name]= caseTabela.crud if total_colunas[entidade.name].blank? %>
 
 			    </td>
 			<% end -%>
 			<td class=<%=alt%>>
-				C<%= total_cases.count "C" %>
-				R<%= total_cases.count "R" %>
-				U<%= total_cases.count "U" %>
-				D<%= total_cases.count "D" %>
+				<%=render :partial => 'crud', :locals =>{:total_cases => total_linha} %>
 			</td>
   	</tr>
+  	<% total_linhas[cdu.name] =total_linha %>
+  	<% soma_total.concat(total_linha) unless total_linha.blank? %>	
   <% end -%>
   <tfoot>
     <tr>
-      <td>TOTAIS</td>
-      <% total_entidades.each do |total| -%>
+    	<td>TOTAL</td>
+    	<% total_colunas.each_with_index do |total_colunas,index| -%>
+	  		<td>
+	  			<%=render :partial => 'crud', :locals =>{:total_cases => total_colunas} %>
+			</td>
+		<% end -%>
       	<td>
-      		C<%= total.count "C" %>
-			R<%= total.count "R" %>
-			U<%= total.count "U" %>
-			D<%= total.count "D" %>
-      	</td>
-      <% end -%>
-      <td></tb>
+      		<%=render :partial => 'crud', :locals =>{:total_cases => soma_total} %>
+      	</tb>
     </tr>
   </tfoot>
 </table>
+
+<%= total_linhas %>
+<%= total_colunas %>
 
 <h6><%= link_to "CRUD?", "http://pt.wikipedia.org/wiki/Matriz_de_intera%C3%A7%C3%B5es" %></h6>
 <br>
@@ -216,4 +242,3 @@ input[name="crud"] {
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>
 
-<%= best_in_place @project, :name, :type => :input,:nil =>'--' ,:ok_button => 'Save', :cancel_button => 'Cancel',:html_attrs =>{:size=>'3'} %>	
