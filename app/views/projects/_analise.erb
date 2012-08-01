@@ -1,0 +1,76 @@
+<% total_linhas %>
+<% total_colunas %>
+<h3>Análise de Rastreabilidade e Cobertura</h3>
+
+
+<ul class="nav nav-tabs">
+</ul>
+
+<% total_linhas.to_a.each_with_index do |total_linha,index| -%>
+	
+	<% cor = index.modulo(2)==0 ? "odd link" : "even link" %>
+
+	<h4><%= total_linha[0] %></h4>	
+
+	<div class="row-fluid">
+		<div class="span9">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th class="shrink">Pergunta</th>
+						<th class="shrink" style='width:60px;'>Resposta</th>
+						<th class="records" style='text-align:center;'>Análise </th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr class=<%=cor%> title='Existe pelo menos um Create ?'>
+					<td>
+						<span class="show">Existe pelo menos um Create ?</span>
+					</td>
+					<td style='text-align:center;'>
+						3 sim
+					</td>
+					<td>
+						
+					</td>
+					
+				</tr>
+				<tr class=<%=cor%> title='Existe pelo menos um Delete?'>
+					<td>
+						<span class="show">Existe pelo menos um Delete?</span>
+					</td>
+					<td style='text-align:center;'>
+						16 minu
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+				<tr class=<%=cor%> title='Cada Atividade interage com pelo menos uma Entidade?'>
+					<td>
+						<span class="">Cada Atividade interage com pelo menos uma Entidade?</span>
+					</td>
+					<td style='text-align:center;'>
+						16 minu
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+				<tr class=<%=cor%> title='Cada Entidade interage com pelo menos uma Atividade?'>
+					<td>
+						<span class="">Cada Entidade interage com pelo menos uma Atividade?</span>
+					</td>
+					<td style='text-align:center;'>
+						16 minu
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+<% end -%>	

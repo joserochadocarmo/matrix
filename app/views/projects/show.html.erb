@@ -16,149 +16,6 @@
     //]]>
 </script>
 
-<style type="text/css">
-.rotate {
-	/* Safari */
-	-webkit-transform: rotate(-90deg);
-	/* Firefox */
-	-moz-transform: rotate(-90deg);
-	/* Internet Explorer */
-	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #4f6b72;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	text-align: left;
-	background: #E6EAE9;	
-}
-
-body {
-	color: #4f6b72;
-	background: #E6EAE9;
-}
-
-a {
-	color: #c75f3e;
-}
-
-#mytable {
-	width: 700px;
-	padding: 0;
-	margin: 0;
-}
-
-caption {
-	padding: 0 0 5px 250px;
-	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	text-align: left;
-}
-
-th {
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #4f6b72;
-	border-right: 1px solid #C1DAD7;
-	border-bottom: 1px solid #C1DAD7;
-	border-top: 1px solid #C1DAD7;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	text-align: left;
-	padding: 6px 6px 6px 12px;
-	background: #CAE8EA url(../bg_header.jpg) no-repeat;
-	max-width: 10px;
-}
-
-th.entidade {
-	text-align: center;
-}
-
-th.nobg {
-	border-top: 1px solid #C1DAD7;
-	border-left: 1px solid #C1DAD7;
-	border-right: 1px solid #C1DAD7;
-}
-
-td {
-	border-right: 1px solid #C1DAD7;
-	border-bottom: 1px solid #C1DAD7;
-	background: #fff;
-	color: #4f6b72;
-	text-transform: uppercase;
-	text-align: center;
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	width: 0.5px;
-	max-width: 0.5px;
-}
-
-td.alt {
-	background: #F5FAFA;
-	color: #797268;
-}
-
-th.spec {
-	border-left: 1px solid #C1DAD7;
-	border-top: 0;
-	background: #fff url(../bullet1.gif) no-repeat;
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-}
-
-th.specalt {
-	border-left: 1px solid #C1DAD7;
-	border-top: 0;
-	background: #f5fafa url(../bullet2.gif) no-repeat;
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #797268;
-}
-
-.best_in_place {
-	padding: .1m;
-	cursor: hand;
-	cursor: pointer;
-	-moz-transition: background 0.5s linear;
-	-o-transition: background 0.5s linear;
-	-webkit-transition: background 0.5s linear;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-o-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	border-radius: 5px;
-	text-transform: uppercase;
-}
-
-.best_in_place:hover {
-  	background-color: #CCC;
-}
-
-.purr {
-	position: fixed;
-	width: 324px;
-	top: 50px;
-	right: 15px;
-	padding: 20px;
-	background-color: #333;
-	color: #FFFFFF;
-	border: 2px solid #FFFFFF;
-}
-.purr:hover .close	{
-	position: absolute;
-	top: 5px;
-	right: 3px;
-	display: block;
-	width: 25px;
-	height: 25px;
-	text-indent: -9999px;
-}
-
-input[name="crud"] {
-	width: 50px;  
-	height: 12px;  
-	margin-right: 5px;
-	text-transform: uppercase;
-}
-
-</style>
-
 <br><br><br><br><br><br>
 <caption>Entidades Informacionais</caption>
 <p id="notice"><%= notice %></p>
@@ -167,9 +24,9 @@ input[name="crud"] {
 
   <tr>
   	<tr>
-    	<th scope="col" abbr="Funcionalidades" class="nobg">Funcionalidades</th>
+    	<th scope="col" class="nobg">Funcionalidades</th>
     	<% @entidades.each do |entidade| -%>
-    		<td class="rotate" scope="col" abbr=<%= entidade.name %> >
+    		<td class="rotate" scope="col" %> >
     			<div style="margin-left:5px;"><%= entidade.name %></div>
     		</td>
 		<% end -%>
@@ -189,7 +46,7 @@ input[name="crud"] {
   	<% alt = i.modulo(2)==0 ? "" : "alt" %>
 
   	<tr>
-	    <th scope="row" abbr=<%= cdu.name %> class=<%=cor%> ><%= cdu.name %></th>
+	    <th scope="row" class=<%=cor%>><a class="pjax" href="/admin/case/1"> <%= cdu.name %></th>
 
 	    	<% @entidades.each_with_index do |entidade,j| -%>
 
@@ -233,12 +90,9 @@ input[name="crud"] {
   </tfoot>
 </table>
 
-<%= total_linhas %>
-<%= total_colunas %>
-
 <h6><%= link_to "CRUD?", "http://pt.wikipedia.org/wiki/Matriz_de_intera%C3%A7%C3%B5es" %></h6>
 <br>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<%=render :partial => 'analise', :locals =>{:total_linhas => total_linhas, :total_colunas => total_colunas} %>
+
 
