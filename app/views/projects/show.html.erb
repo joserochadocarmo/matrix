@@ -26,7 +26,7 @@
   	<tr>
     	<th scope="col" class="nobg">Funcionalidades</th>
     	<% @entidades.each do |entidade| -%>
-    		<td class="rotate" scope="col" %> >
+    		<td class="rotate" scope="col" %>
     			<div style="margin-left:5px;"><%= entidade.name %></div>
     		</td>
 		<% end -%>
@@ -90,8 +90,8 @@
   </tfoot>
 </table>
 
-<h6><%= link_to "CRUD?", "http://pt.wikipedia.org/wiki/Matriz_de_intera%C3%A7%C3%B5es" %></h6>
-<br>
+<h6><%= link_to "CRUD ?", "http://pt.wikipedia.org/wiki/Matriz_de_intera%C3%A7%C3%B5es" %></h6>
+<br><br>
 
 <%=render :partial => 'analise', :locals =>{:total_linhas => total_linhas, :total_colunas => total_colunas} %>
 
