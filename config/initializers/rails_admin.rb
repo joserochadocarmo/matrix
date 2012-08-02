@@ -14,7 +14,7 @@ RailsAdmin.config do |config|
 
   #config.excluded_models << "ClassName"
   #config.included_models = ["Class1", "Class2", "Class3"]
-  #config.excluded_models = ["Matrix"]
+  config.excluded_models = ["CaseTabela"]
 
   config.actions do
     # root actions

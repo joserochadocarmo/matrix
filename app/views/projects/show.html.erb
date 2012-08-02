@@ -2,6 +2,8 @@
     //<![CDATA[
     $(document).ready(function() {
       /* Activating Best In Place */
+      $(".collapse").collapse({toggle: false})
+
       $(".best_in_place").best_in_place();
       $(".best_in_place").live("click", function(){
       	$('input[type="submit"]').addClass('btn btn-mini btn-primary').css('margin-right','3px').css('margin-bottom','9px');
@@ -15,22 +17,22 @@
     });
     //]]>
 </script>
+<div style="padding-top:20%;">
+  Entidades Informacionais
+</div>
 
-<br><br><br><br><br><br>
-<caption>Entidades Informacionais</caption>
 <p id="notice"><%= notice %></p>
 
 <table id="mytable" cellspacing="0" summary="Matrix">
-
   <tr>
   	<tr>
     	<th scope="col" class="nobg">Funcionalidades</th>
     	<% @entidades.each do |entidade| -%>
-    		<td class="rotate" scope="col" %>
+    		<td class="rotate" scope="col" title=<%= entidade.name %> %>
     			<div style="margin-left:5px;"><%= entidade.name %></div>
     		</td>
 		<% end -%>
-		<th class="entidade" scope="col" abbr="Totais" >TOTAL</th>
+		<th class="entidade" scope="col" abbr="Totais" >TOTAL RASTREABILIDADE</th>
   	</tr>  
   </tr>
 
@@ -54,7 +56,7 @@
 
 			    <td class=<%=alt%>>
 
-			    	<% caseTabela=CaseTabela.new(:crud=>'') if caseTabela.blank? %>
+			      <% caseTabela=CaseTabela.new(:crud=>'') if caseTabela.blank? %>
 
 			    	<%= best_in_place caseTabela, :crud, :type => :input,:nil =>'--' , 
 			    		:path => project_path(:case_id => cdu.id, :tabela_id => entidade.id,
@@ -64,7 +66,7 @@
 			    	
 			    	<% total_colunas[entidade.name]= total_colunas[entidade.name].concat(caseTabela.crud) unless total_colunas[entidade.name].blank? %>
 					
-					<% total_colunas[entidade.name]= caseTabela.crud if total_colunas[entidade.name].blank? %>
+					  <% total_colunas[entidade.name]= caseTabela.crud if total_colunas[entidade.name].blank? %>
 
 			    </td>
 			<% end -%>
@@ -77,7 +79,7 @@
   <% end -%>
   <tfoot>
     <tr>
-    	<td>TOTAL</td>
+    	<td>TOTAL COBERTURA</td>
     	<% total_colunas.each_with_index do |total_colunas,index| -%>
 	  		<td>
 	  			<%=render :partial => 'crud', :locals =>{:total_cases => total_colunas} %>
@@ -91,8 +93,22 @@
 </table>
 
 <h6><%= link_to "CRUD ?", "http://pt.wikipedia.org/wiki/Matriz_de_intera%C3%A7%C3%B5es" %></h6>
-<br><br>
+<br>
 
-<%=render :partial => 'analise', :locals =>{:total_linhas => total_linhas, :total_colunas => total_colunas} %>
+<button class="btn btn-danger" data-toggle="collapse" data-target="#rastrabilidade">
+  Análise de Rastreabilidade
+</button>
+
+<button class="btn btn-danger" data-toggle="collapse" data-target="#cobertura">
+  Análise de Cobertura
+</button>
+
+<div id='rastrabilidade' class="collapse">
+<%=render :partial => 'rastreabilidade', :locals =>{:total_linhas => total_linhas} %>
+</div>
+
+<div id='cobertura' class="collapse">
+<%=render :partial => 'cobertura', :locals =>{:total_colunas => total_colunas} %>
+</div>
 
 

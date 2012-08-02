@@ -8,7 +8,7 @@ class Tabela < ActiveRecord::Base
   validates :name,
             :presence => true,
             :uniqueness => {:case_sensitive => false},
-            :length => {:maximum => 150}
+            :length => {:maximum => 30}
 
   validates_presence_of :project
 

@@ -80,8 +80,13 @@ class ProjectsController < ApplicationController
         format.json { render json: @caseTabela.errors, status: :unprocessable_entity }
       end
     end
-  
-    
+  rescue ActiveRecord::StaleObjectError
+    respond_to do |format|
+      h = { :status => "error", :message => "ERROR: Controle de concorrencia <br> 
+        Alguem antes de voce ja atualizou esse registro! <br> 
+        O Registro que voce tentou salvar era absoleto." }
+      format.json { render :json => h, :status => :forbidden }
+    end 
   end
 
   # DELETE /projects/1

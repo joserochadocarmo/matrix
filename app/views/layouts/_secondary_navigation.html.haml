@@ -7,3 +7,6 @@
       %li= link_to current_user.email, main_app_root_path
     - if defined?(Devise) && (devise_scope = request.env["warden"].config[:default_scope] rescue false) && (logout_path = main_app.send("destroy_#{devise_scope}_session_path") rescue false)
       %li= link_to content_tag('span', t('admin.misc.log_out'), :class => 'label label-important'), logout_path, :method => Devise.sign_out_via
+  - else
+    %li= link_to 'Login', main_app_root_path
+      

@@ -1,0 +1,100 @@
+<ul class="nav nav-tabs">
+</ul>
+
+<% total_colunas.to_a.each_with_index do |total_coluna,index| -%>
+	
+	<% cor = index.modulo(2)==0 ? "odd link" : "even link" %>
+
+	<h4 style='text-transform:uppercase;'>
+		<%= total_coluna[0] %>
+	</h4>	
+
+	<div class="row-fluid">
+		<div class="span10">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th class="shrink">Pergunta</th>
+						<th class="shrink" style='width:60px;text-align:center;'>Resposta</th>
+						<th  style='width:50%;' class="records" style='text-align:center;'>Análise </th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr class=<%=cor%> title='EXISTE PELO MENOS UM CREATE ?'>
+					<td>
+						EXISTE PELO MENOS UM CREATE ?
+					</td>
+					<td style='text-align:center;'>
+						<%= existe_create?(total_coluna[1]) %>
+					</td>
+					<td>
+						<%= nao_existe_create?(total_coluna[1]) %>
+					</td>
+					
+				</tr>
+				<tr class=<%=cor%> title='EXISTE PELO MENOS UM READ ?'>
+					<td>
+						EXISTE PELO MENOS UM READ ?
+					</td>
+					<td style='text-align:center;'>
+						<%= existe_read?(total_coluna[1]) %>
+					</td>
+					<td>
+						<%= nao_existe_read?(total_coluna[1]) %>
+					</td>
+					
+				</tr>
+				<tr class=<%=cor%> title='EXISTE PELO MENOS UM DELETE ?'>
+					<td>
+						EXISTE PELO MENOS UM DELETE ?
+					</td>
+					<td style='text-align:center;'>
+						<%= existe_delete?(total_coluna[1]) %>
+					</td>
+					<td>
+						<%= nao_existe_delete?(total_coluna[1]) %>
+					</td>
+				</tr>
+				<tr class=<%=cor%> title='INTERAGE COM PELO MENOS UMA ATIVIDADE ?'>
+					<td>
+						INTERAGE COM PELO MENOS UMA ATIVIDADE ?
+					</td>
+					<td style='text-align:center;'>
+						<%= existe_entidade?(total_coluna[1]) %>
+					</td>
+					<td>
+						<%= nao_existe_entidade?(total_coluna[1]) %>
+					</td>
+				</tr>
+				<tr class=<%=cor%> title='CREATES, UPDATES OU DELETES MÚLTIPLOS ?'>
+					<td>
+						TEM CREATES, UPDATES OU DELETES MÚLTIPLOS ?
+					</td>
+					<td style='text-align:center;'>
+						<%= existe_multiplos?(total_coluna[1]) %>
+					</td>
+					<td>
+						<%= nao_existe_multiplos?(total_coluna[1]) %>
+					</td>
+				</tr>
+				
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+<% end -%>	
+
+<tr class='' title='Cada Entidade interage com pelo menos uma Atividade?'>
+					<td>
+						<span class="">Cada Entidade interage com pelo menos uma Atividade?</span>
+					</td>
+					<td style='text-align:center;'>
+						<i class="icon-remove"></i> NÃO
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+
+http://pt.scribd.com/doc/30531/129/VIII-10-3-Manipulando-a-Matriz-CRUD				
